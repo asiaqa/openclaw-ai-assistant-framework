@@ -43,10 +43,8 @@ cd ~/.openclaw/workspace && python3 scripts/generate-daily-report.py
 
 ### git_backup
 **触发**: 每30分钟
-**操作**:
-```bash
-cd ~/.openclaw/workspace && git add . && git commit -m "auto: $(date +%Y-%m-%d-%H:%M) backup" && git push origin main 2>/dev/null || true
-```
+**执行方式**: 系统 crontab（静默，不通知）
+**脚本**: `scripts/git-auto-backup.sh`
 **说明**: 本地工作区Git备份（自动提交到Git仓库，含所有配置文件、脚本、记忆文件）
 
 ---
