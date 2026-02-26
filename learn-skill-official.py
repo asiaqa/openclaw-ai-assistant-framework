@@ -204,8 +204,10 @@ def send_notification(skill, category):
 
 这是来自官方2868技能库的专业技能！"""
         
+        # 使用完整路径调用openclaw（cron环境可能找不到PATH）
+        openclaw_path = '/home/zzyuzhangxing/.npm-global/bin/openclaw'
         subprocess.run([
-            'openclaw', 'message', 'send',
+            openclaw_path, 'message', 'send',
             '--channel', 'feishu',
             '--target', 'ou_f17427a7518faa014659589d89db4d8b',
             '--message', message

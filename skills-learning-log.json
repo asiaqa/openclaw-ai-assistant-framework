@@ -1017,5 +1017,29 @@
       "source": "awesome-openclaw-skills"
     },
     "details": "# yclawker-news\n\n## \u7c7b\u522b\n\u270d\ufe0f \u5185\u5bb9\u521b\u4f5c\n\n## \u63cf\u8ff0\nClawker News - post links, comment.\n\n## \u6765\u6e90\n\u5b98\u65b9\u6280\u80fd\u5e93: https://github.com/VoltAgent/awesome-openclaw-skills\n\n## \u5b89\u88c5\u65b9\u5f0f\n```bash\nnpx clawhub@latest install yclawker-news\n```\n\n\u6216\u8005\u76f4\u63a5\u590d\u5236\u6280\u80fd\u6587\u4ef6\u5939\u5230:\n- Global: `~/.openclaw/skills/`\n- Workspace: `<project>/skills/`\n\n## \u5b98\u65b9\u94fe\u63a5\nhttps://github.com/openclaw/skills/tree/main/skills/jakehandy\n"
+  },
+  {
+    "timestamp": "2026-02-27T01:00:03.757774",
+    "hour": 1,
+    "category": "\u2699\ufe0f \u81ea\u52a8\u5316",
+    "skillLearned": {
+      "name": "fearbot",
+      "url": "https://github.com/openclaw/skills/tree/main/skills/samoppakiks/fearbot/SKILL.md",
+      "description": "CBT-based therapy for anxiety, depression, stress, and trauma.",
+      "source": "awesome-openclaw-skills"
+    },
+    "details": "# fearbot\n\n## \u7c7b\u522b\n\u2699\ufe0f \u81ea\u52a8\u5316\n\n## \u63cf\u8ff0\nCBT-based therapy for anxiety, depression, stress, and trauma.\n\n## \u6765\u6e90\n\u5b98\u65b9\u6280\u80fd\u5e93: https://github.com/VoltAgent/awesome-openclaw-skills\n\n## \u5b89\u88c5\u65b9\u5f0f\n```bash\nnpx clawhub@latest install fearbot\n```\n\n\u6216\u8005\u76f4\u63a5\u590d\u5236\u6280\u80fd\u6587\u4ef6\u5939\u5230:\n- Global: `~/.openclaw/skills/`\n- Workspace: `<project>/skills/`\n\n## \u5b98\u65b9\u94fe\u63a5\nhttps://github.com/openclaw/skills/tree/main/skills/samoppakiks/fearbot/SKILL.md\n"
+  },
+  {
+    "timestamp": "2026-02-27T01:09:39.871493",
+    "hour": 1,
+    "category": "\u2699\ufe0f \u81ea\u52a8\u5316",
+    "skillLearned": {
+      "name": "agent-browser",
+      "url": "https://github.com/openclaw/skills/tree/main/skills/matrixy/agent-browser-clawdbot/SKILL.md",
+      "description": "Headless browser automation CLI optimized for AI agents",
+      "source": "awesome-openclaw-skills"
+    },
+    "details": "# agent-browser\n\n## \u7c7b\u522b\n\u2699\ufe0f \u81ea\u52a8\u5316\n\n## \u63cf\u8ff0\nHeadless browser automation CLI optimized for AI agents\n\n## \u6765\u6e90\n\u5b98\u65b9\u6280\u80fd\u5e93: https://github.com/VoltAgent/awesome-openclaw-skills\n\n## \u5b89\u88c5\u65b9\u5f0f\n```bash\nnpx clawhub@latest install agent-browser\n```\n\n\u6216\u8005\u76f4\u63a5\u590d\u5236\u6280\u80fd\u6587\u4ef6\u5939\u5230:\n- Global: `~/.openclaw/skills/`\n- Workspace: `<project>/skills/`\n\n## \u5b98\u65b9\u94fe\u63a5\nhttps://github.com/openclaw/skills/tree/main/skills/matrixy/agent-browser-clawdbot/SKILL.md\n"
   }
 ]
