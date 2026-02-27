@@ -11,14 +11,36 @@ const WORKSPACE = path.join(process.env.HOME, '.openclaw/workspace');
 const LOG_FILE = path.join(WORKSPACE, 'learn-cron.log');
 const STATUS_FILE = path.join(WORKSPACE, '.skill-install-infinite.json');
 
-// 搜索关键词列表（覆盖不同领域）
-const SEARCH_KEYWORDS = [
-  'agent', 'automation', 'ai', 'data', 'web', 'api', 'cloud',
-  'github', 'slack', 'discord', 'twitter', 'email', 'calendar',
-  'search', 'image', 'video', 'audio', 'document', 'file',
-  'database', 'security', 'monitor', 'report', 'analysis',
-  'workflow', 'integration', 'notification', 'schedule', 'task'
-];
+// 24小时学习计划（AI自媒体博主专用）
+const HOURLY_KEYWORDS = {
+  // 视觉创作时段（00:00-12:00）
+  0: ["image", "prompt", "ai-art", "generation"],
+  1: ["image", "prompt", "ai-art", "generation"],
+  2: ["image", "prompt", "ai-art", "generation"],
+  3: ["image", "prompt", "ai-art", "generation"],
+  4: ["video", "editing", "production", "creative"],
+  5: ["video", "editing", "production", "creative"],
+  6: ["video", "editing", "production", "creative"],
+  7: ["video", "editing", "production", "creative"],
+  8: ["design", "graphics", "photo", "visual"],
+  9: ["design", "graphics", "photo", "visual"],
+  10: ["design", "graphics", "photo", "visual"],
+  11: ["design", "graphics", "photo", "visual"],
+
+  // 自媒体运营时段（12:00-24:00）
+  12: ["content", "writing", "copywriting", "blog"],
+  13: ["content", "writing", "copywriting", "blog"],
+  14: ["content", "writing", "copywriting", "blog"],
+  15: ["content", "writing", "copywriting", "blog"],
+  16: ["social", "twitter", "weibo", "engagement"],
+  17: ["social", "twitter", "weibo", "engagement"],
+  18: ["social", "twitter", "weibo", "engagement"],
+  19: ["social", "twitter", "weibo", "engagement"],
+  20: ["analytics", "automation", "seo", "marketing"],
+  21: ["analytics", "automation", "seo", "marketing"],
+  22: ["analytics", "automation", "seo", "marketing"],
+  23: ["analytics", "automation", "seo", "marketing"]
+};
 
 function log(msg) {
   const timestamp = new Date().toLocaleString('zh-CN');
@@ -124,7 +146,7 @@ function installSkill(skillName) {
 async function main() {
   log('');
   log('============================================================');
-  log('🚀 无限技能学习 - ClawHub动态搜索版');
+  log('🚀 无限技能学习 - 24小时定向学习版');
   log('============================================================');
 
   const installed = getInstalledSkills();
@@ -132,8 +154,12 @@ async function main() {
 
   log(`📊 当前已安装: ${installed.size} 个技能`);
 
-  // 轮询搜索关键词
-  const keyword = SEARCH_KEYWORDS[status.keywordIndex % SEARCH_KEYWORDS.length];
+  // 根据当前小时选择关键词
+  const currentHour = new Date().getHours();
+  const keywords = HOURLY_KEYWORDS[currentHour] || ['skill'];
+  const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+
+  log(`🕐 当前时段: ${currentHour}:00`);
   log(`🔍 搜索关键词: ${keyword}`);
 
   // 搜索技能
@@ -141,10 +167,17 @@ async function main() {
   log(`📚 找到 ${foundSkills.length} 个技能`);
 
   if (foundSkills.length === 0) {
-    log('⚠️ 未找到技能，尝试下一个关键词');
-    status.keywordIndex++;
-    saveStatus(status);
-    return;
+    log('⚠️ 未找到技能，尝试备用关键词');
+    const backupKeywords = ['agent', 'ai', 'automation', 'data'];
+    const backupKeyword = backupKeywords[Math.floor(Math.random() * backupKeywords.length)];
+    const backupSkills = searchSkills(backupKeyword);
+
+    if (backupSkills.length === 0) {
+      log('⚠️ 备用搜索也失败，等待下次');
+      return;
+    }
+
+    foundSkills.push(...backupSkills);
   }
 
   // 过滤未安装和未尝试的技能
@@ -154,8 +187,6 @@ async function main() {
 
   if (toInstall.length === 0) {
     log('✅ 当前关键词下的技能已全部处理');
-    status.keywordIndex++;
-    saveStatus(status);
     return;
   }
 
@@ -181,19 +212,17 @@ async function main() {
     status.tried = status.tried.slice(-500);
   }
 
-  // 如果当前关键词安装成功，下次继续用这个关键词
-  // 否则切换到下一个关键词
-  if (successCount === 0) {
-    status.keywordIndex++;
-  }
-
   saveStatus(status);
+
+  const nextHour = (currentHour + 1) % 24;
+  const nextKeywords = HOURLY_KEYWORDS[nextHour];
 
   log('');
   log('============================================================');
   log(`✅ 完成! 成功安装: ${successCount}/${batch.length}`);
   log(`📊 总计: ${installed.size + successCount} 个技能`);
-  log(`🔍 下次关键词: ${SEARCH_KEYWORDS[status.keywordIndex % SEARCH_KEYWORDS.length]}`);
+  log(`🕐 下个时段: ${nextHour}:00`);
+  log(`🔍 下次关键词: ${nextKeywords ? nextKeywords[0] : 'skill'}`);
   log('============================================================');
 }
 

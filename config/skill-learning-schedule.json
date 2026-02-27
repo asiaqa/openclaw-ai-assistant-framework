@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "updated": "2026-02-28",
+  "user_identity": "AI自媒体博主",
+  "schedule": {
+    "00:00-12:00": {
+      "name": "视觉创作时段",
+      "focus": "视频、图像、提示词类技能",
+      "keywords": [
+        "image", "video", "prompt", "ai-art", "generation",
+        "midjourney", "stable-diffusion", "dalle", "visual",
+        "design", "graphics", "photo", "editing", "creative"
+      ]
+    },
+    "12:00-24:00": {
+      "name": "自媒体运营时段",
+      "focus": "内容创作、社交媒体、数据分析、自动化",
+      "keywords": [
+        "content", "writing", "social", "twitter", "weibo",
+        "automation", "analytics", "seo", "marketing", "growth",
+        "engagement", "scheduling", "posting", "trending"
+      ]
+    }
+  },
+  "hourly_rotation": {
+    "00-04": ["image", "prompt", "ai-art", "generation"],
+    "04-08": ["video", "editing", "production", "creative"],
+    "08-12": ["design", "graphics", "photo", "visual"],
+    "12-16": ["content", "writing", "copywriting", "blog"],
+    "16-20": ["social", "twitter", "weibo", "engagement"],
+    "20-24": ["analytics", "automation", "seo", "marketing"]
+  }
+}

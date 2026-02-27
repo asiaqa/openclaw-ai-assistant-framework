@@ -80,14 +80,12 @@ class HeartbeatEngine:
                     with open(memory_file, 'r', encoding='utf-8') as f:
                         memory_content = f.read()
 
-                    # 检查是否有需要固化的内容
-                    if '## 🎓 学习成果' not in memory_content:
-                        # 添加学习成果部分
-                        with open(memory_file, 'a', encoding='utf-8') as f:
-                            f.write(f"\n## 🎓 学习成果 - {yesterday}\n\n")
-                            f.write("（待从短期记忆中提取）\n")
-
-                        self.alerts.append(f"📝 检测到昨天的记忆需要整理到MEMORY.md")
+                    # 检查是否已经有这个日期的学习成果
+                    if f'## 🎓 学习成果 - {yesterday}' not in memory_content:
+                        # 添加学习成果部分（仅在确实有新内容时）
+                        # 这里暂时不添加，避免重复
+                        # self.alerts.append(f"📝 检测到昨天的记忆需要整理到MEMORY.md")
+                        pass
 
         self.state['lastChecks']['memory'] = self.now.isoformat()
         self.state['memoryCleanup'] = self.now.isoformat()

@@ -16,6 +16,14 @@
     "model-usage": {
       "version": "1.0.0",
       "installedAt": 1772221566654
+    },
+    "ai-ppt-generator": {
+      "version": "1.1.2",
+      "installedAt": 1772222528171
+    },
+    "pls-copy-editing": {
+      "version": "1.0.0",
+      "installedAt": 1772223034375
     }
   }
 }

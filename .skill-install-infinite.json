@@ -2,7 +2,13 @@
   "tried": [
     "n8n-workflow-automation",
     "automation-workflows-0-1-0",
-    "windows-ui-automation"
+    "windows-ui-automation",
+    "ai-ppt-generator",
+    "ai-notes-of-video",
+    "ai-ppt-generate",
+    "donson-intelligent-editing",
+    "insaiai-intelligent-editing",
+    "pls-copy-editing"
   ],
-  "keywordIndex": 2
+  "keywordIndex": 3
 }
