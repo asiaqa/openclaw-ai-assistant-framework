@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control - WF助手任务控制中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .task-item, .agent-item, .approval-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f7f7f7;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .task-item.pending {
+            border-left-color: #f39c12;
+        }
+        
+        .task-item.in_progress {
+            border-left-color: #3498db;
+        }
+        
+        .task-item.completed {
+            border-left-color: #27ae60;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-running {
+            background: #27ae60;
+        }
+        
+        .status-idle {
+            background: #95a5a6;
+        }
+        
+        .status-pending {
+            background: #f39c12;
+        }
+        
+        .priority-high {
+            color: #e74c3c;
+        }
+        
+        .priority-medium {
+            color: #f39c12;
+        }
+        
+        .priority-low {
+            color: #3498db;
+        }
+        
+        .system-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .info-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7f7f7;
+            border-radius: 5px;
+        }
+        
+        .info-item .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .info-item .label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .refresh-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        
+        .refresh-btn:hover {
+            background: #764ba2;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎛️ Mission Control</h1>
+            <p>WF助手任务控制中心 | 实时监控 · 智能调度 · 高效协作</p>
+        </header>
+        
+        <button class="refresh-btn" onclick="loadAllData()">🔄 刷新数据</button>
+        
+        <!-- 系统状态 -->
+        <div class="card">
+            <h2>📊 系统状态</h2>
+            <div class="system-info" id="system-status">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <!-- 待办任务 -->
+            <div class="card">
+                <h2>📋 待办任务</h2>
+                <div id="tasks">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+            
+            <!-- 子Agent状态 -->
+            <div class="card">
+                <h2>🤖 子Agent状态</h2>
+                <div id="agents">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+            
+            <!-- 审批队列 -->
+            <div class="card">
+                <h2>✅ 审批队列</h2>
+                <div id="approval-queue">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 技能库 -->
+        <div class="card">
+            <h2>📚 技能库</h2>
+            <div id="skills">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 加载所有数据
+        async function loadAllData() {
+            await Promise.all([
+                loadTasks(),
+                loadAgents(),
+                loadApprovalQueue(),
+                loadSystemStatus(),
+                loadSkills()
+            ]);
+        }
+        
+        // 加载待办任务
+        async function loadTasks() {
+            try {
+                const response = await fetch('/api/tasks');
+                const tasks = await response.json();
+                
+                let html = '';
+                tasks.forEach(task => {
+                    const priorityClass = `priority-${task.priority}`;
+                    const statusClass = task.status;
+                    html += `
+                        <div class="task-item ${statusClass}">
+                            <strong>${task.title}</strong>
+                            <span class="${priorityClass}"> [${task.priority}]</span>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('tasks').innerHTML = html || '<p>暂无待办任务</p>';
+            } catch (error) {
+                document.getElementById('tasks').innerHTML = '<p>加载失败</p>';
+            }
+        }
+        
+        // 加载子Agent状态
+        async function loadAgents() {
+            try {
+                const response = await fetch('/api/agents');
+                const agents = await response.json();
+                
+                let html = '';
+                agents.forEach(agent => {
+                    const statusClass = agent.status === 'running' ? 'status-running' : 'status-idle';
+                    html += `
+                        <div class="agent-item">
+                            <strong>${agent.name}</strong>
+                            <span class="status-badge ${statusClass}">${agent.status}</span>
+                            <br>
+                            <small>上次: ${agent.last_run} | 下次: ${agent.next_run} | 完成: ${agent.tasks_completed}个</small>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('agents').innerHTML = html || '<p>暂无Agent</p>';
+            } catch (error) {
+                document.getElementById('agents').innerHTML = '<p>加载失败</p>';
+            }
+        }
+        
+        // 加载审批队列
+        async function loadApprovalQueue() {
+            try {
+                const response = await fetch('/api/approval-queue');
+                const queue = await response.json();
+                
+                let html = '';
+                queue.forEach(item => {
+                    html += `
+                        <div class="approval-item">
+                            <strong>[${item.type}]</strong> ${item.content.substring(0, 50)}...
+                            <br>
+                            <small>创建时间: ${item.created_at}</small>
+                        </div>
+                    `;
+                });
+                
+                document.getElementById('approval-queue').innerHTML = html || '<p>审批队列为空</p>';
+            } catch (error) {
+                document.getElementById('approval-queue').innerHTML = '<p>加载失败</p>';
+            }
+        }
+        
+        // 加载系统状态
+        async function loadSystemStatus() {
+            try {
+                const response = await fetch('/api/system-status');
+                const status = await response.json();
+                
+                let html = `
+                    <div class="info-item">
+                        <div class="value">${status.gateway === 'running' ? '✅' : '❌'}</div>
+                        <div class="label">Gateway</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="value">${status.model.split('/')[1]}</div>
+                        <div class="label">当前模型</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="value">${status.skills_installed}</div>
+                        <div class="label">已安装技能</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="value">${status.cron_jobs}</div>
+                        <div class="label">定时任务</div>
+                    </div>
+                `;
+                
+                document.getElementById('system-status').innerHTML = html;
+            } catch (error) {
+                document.getElementById('system-status').innerHTML = '<p>加载失败</p>';
+            }
+        }
+        
+        // 加载技能库
+        async function loadSkills() {
+            try {
+                const response = await fetch('/api/skills');
+                const data = await response.json();
+                
+                let html = `<p><strong>总计: ${data.count}个技能</strong></p>`;
+                html += '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">';
+                data.skills.slice(0, 20).forEach(skill => {
+                    html += `<span style="background: #f0f0f0; padding: 5px 10px; border-radius: 3px; font-size: 0.9em;">${skill.name}</span>`;
+                });
+                html += '</div>';
+                
+                document.getElementById('skills').innerHTML = html;
+            } catch (error) {
+                document.getElementById('skills').innerHTML = '<p>加载失败</p>';
+            }
+        }
+        
+        // 页面加载时自动加载数据
+        window.onload = loadAllData;
+        
+        // 每30秒自动刷新
+        setInterval(loadAllData, 30000);
+    </script>
+</body>
+</html>

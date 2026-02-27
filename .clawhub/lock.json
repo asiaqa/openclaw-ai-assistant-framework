@@ -104,6 +104,10 @@
     "twitter-post": {
       "version": "1.0.0",
       "installedAt": 1772186021285
+    },
+    "image-cog": {
+      "version": "1.0.2",
+      "installedAt": 1772193370029
     }
   }
 }

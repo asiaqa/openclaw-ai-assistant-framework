@@ -92,7 +92,15 @@ def generate_daily_summary():
 
 """
     
-    # 4. 系统状态
+    # 4. 推荐任务（反向提示实践）
+    recommended_tasks = generate_recommended_tasks()
+    summary += f"""{recommended_tasks}
+
+---
+
+"""
+    
+    # 5. 系统状态
     summary += f"""## ⚙️ 系统状态
 
 | 组件 | 状态 |
@@ -109,15 +117,6 @@ def generate_daily_summary():
 1. **观察今日热门视频后续表现** (24h数据变化)
 2. **关注OpenAI/Claude/ComfyUI官方动态**
 3. **准备选题脚本框架**: 从今日热点中选择跟进
-
----
-
-## 💡 选题建议
-
-基于今日数据，建议关注：
-1. 
-2. 
-3. 
 
 ---
 
@@ -195,6 +194,58 @@ def load_skills_learned():
     except Exception as e:
         return f"*数据加载失败: {e}*"
     return "*今日暂无学习记录*"
+
+def generate_recommended_tasks():
+    """
+    生成推荐任务 - 反向提示实践
+    让OpenClaw主动思考：今天我能完成哪些任务来让老鱼更接近目标？
+    """
+    today = datetime.now().strftime('%Y-%m-%d')
+    
+    # 读取用户目标
+    user_goals = """
+**短期目标（3个月）:**
+- B站粉丝从5万增长到8万
+- 建立稳定的内容生产系统
+- 每周至少发布3个高质量视频
+
+**中期目标（1年）:**
+- 创建24/7自主运营的自媒体系统
+- B站粉丝突破10万
+- 通过AI自媒体实现稳定收入
+"""
+    
+    # 基于目标和当前数据生成推荐任务
+    tasks = f"""### 🎯 推荐任务
+
+> 基于老鱼的目标和当前数据，WF助手今天可以完成的任务：
+
+**内容创作方向:**
+1. 分析今日AI热门视频，生成3个选题建议
+2. 基于热门趋势，编写视频脚本大纲
+3. 搜索ComfyUI/Seedence最新教程，准备教程内容
+
+**数据优化方向:**
+1. 分析老鱼账号近7天视频表现，找出爆款规律
+2. 监控竞品账号，学习成功案例
+3. 优化标题/封面策略，提升点击率
+
+**系统优化方向:**
+1. 学习新技能（ClawHub安装）- 每小时自动执行
+2. 优化早报内容，添加更多价值信息
+3. 构建Mission Control任务控制中心
+
+**立即行动:**
+- [ ] 审核昨日数据，调整今日策略
+- [ ] 选择1个选题，开始创作
+- [ ] 测试新安装的技能
+
+---
+
+**💡 反向提示**: "基于我们的目标，WF助手今天还能做什么来创造更多价值？"
+"""
+    
+    return tasks
 
 def send_to_telegram(report_file, summary_text):
     """发送汇报到Telegram"""

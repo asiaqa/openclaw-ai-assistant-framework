@@ -90,6 +90,18 @@ cd ~/.openclaw/workspace && python3 scripts/generate-daily-report.py
 **脚本**: `scripts/git-auto-backup.sh`
 **说明**: 本地工作区Git备份（自动提交到Git仓库，含所有配置文件、脚本、记忆文件）
 
+### mission_control_iteration
+**触发**: 每周一 20:00
+**操作**:
+1. 读取 `mission-control/ITERATION_PLAN.md`
+2. 回顾上周使用情况
+3. 分析数据（访问次数、功能使用率）
+4. 确定本周优化项
+5. 发送飞书消息提醒老鱼
+**说明**: Mission Control每周迭代会议
+**迭代周期**: 每周一 20:00
+**下次迭代**: 2026-03-02 20:00
+
 ---
 
 ## 每日汇报时间线
