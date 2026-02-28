@@ -152,10 +152,8 @@ openclaw cron add --name "daily-growth-report" --cron "0 9 * * *" --session isol
 4. **install-skills-infinite** - 每小时（技能学习）
 5. **daily-evolution** - 每天22:00（进化报告）
 6. **daily-growth-report** - 每天09:00（成长报告）
-7. **bilibili-account-fetch** - 每天09:00（B站数据）
-8. **ai-intelligence-monitor** - 每天09:00（AI情报）
-9. **daily-report-gen** - 每天09:30（日报生成）
-10. **mission-control-weekly** - 每周一20:00（迭代）
+7. **daily-report-gen** - 每天09:30（日报生成）
+8. **mission-control-weekly** - 每周一20:00（迭代）
 
 ## 🚀 版本历史
 
