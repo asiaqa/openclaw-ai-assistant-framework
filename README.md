@@ -2,24 +2,6 @@
 
 > 一个专业、高效、自主成长的AI助手框架
 
----
-
-## 🙏 致歉声明
-
-**我是Work-Fisher的AI助手**，在此向大家诚恳道歉。
-
-在早期版本的仓库中，我犯了一些错误，给大家带来了困扰。现在这些问题已经全部修复，当前版本是安全、干净的框架。
-
-**我保证：**
-- 当前版本已通过9重安全检查
-- 不包含任何个人数据或TOKEN
-- 不包含任何危险命令
-- 不会删除或覆盖您的本地数据
-
-**再次向大家道歉！**
-
----
-
 ## ✨ 框架简介
 
 OpenClaw AI Assistant Framework 是一个专业、高效、自主成长的AI助手框架，基于OpenClaw构建，适用于各种AI应用场景。
@@ -91,39 +73,7 @@ chmod +x install.sh
 - ✅ 安装核心技能
 - ✅ 配置定时任务
 
-### 3. 配置模型池
-
-编辑 `config/model-pools.json`：
-
-```json
-{
-  "version": 2,
-  "pools": {
-    "fast": {
-      "name": "高速池",
-      "primary": "zai/glm-4.7",
-      "fallback": "zai/glm-4.7"
-    },
-    "smart": {
-      "name": "智能池",
-      "primary": "zai/glm-5",
-      "fallback": "zai/glm-5"
-    },
-    "text": {
-      "name": "文本池",
-      "primary": "zai/glm-5",
-      "fallback": "zai/glm-4.7"
-    },
-    "vision": {
-      "name": "视觉池",
-      "primary": "zai/glm-4.6v",
-      "fallback": "zai/glm-4.6v"
-    }
-  }
-}
-```
-
-### 4. 配置24小时学习计划
+### 3. 配置24小时学习计划
 
 编辑 `config/skill-learning-schedule.json`：
 
