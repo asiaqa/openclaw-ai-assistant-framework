@@ -35,9 +35,9 @@ echo "✅ 核心技能安装完成"
 
 # 步骤5：配置定时任务
 echo "⏰ 配置定时任务..."
-openclaw cron add --name "heartbeat-check" --cron "*/30 * * * *" --exact --system-event "heartbeat_check" 2>/dev/null || true
+#openclaw cron add --name "heartbeat-check" --cron "*/30 * * * *" --exact --system-event "heartbeat_check" 2>/dev/null || true
 openclaw cron add --name "daily-evolution" --cron "0 22 * * *" --exact --system-event "daily_evolution" 2>/dev/null || true
-openclaw cron add --name "model-health-check" --cron "0 */6 * * *" --exact --system-event "model_health_check" 2>/dev/null || true
+#openclaw cron add --name "model-health-check" --cron "0 */6 * * *" --exact --system-event "model_health_check" 2>/dev/null || true
 openclaw cron add --name "smart-backup" --cron "0 * * * *" --exact --system-event "smart_backup_check" 2>/dev/null || true
 echo "✅ 定时任务配置完成"
 
